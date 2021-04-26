@@ -1,16 +1,14 @@
 import time as t
-
-import numpy
 import pygame
-from pygame import *
 from Physics import Ball as b
-from pingPong.constants import Constants as c
+import settings as c
 from Physics.ColorMath import Color as co
+import pyautogui
 
 
 class DrawableWin:
     # Declare Width and Height of window
-    width, height = 1920, 1080
+    width, height = pyautogui.size()
     #background color
     backCol = [16, 16, 16]
     ballCol = [200, 200, 200]

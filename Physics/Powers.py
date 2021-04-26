@@ -1,6 +1,4 @@
-from pingPong.constants import Constants as c
 import Physics.Math as M
-import math
 import random
 
 class slowPower(M.BoundRect):

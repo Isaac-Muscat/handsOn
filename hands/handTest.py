@@ -3,7 +3,7 @@ from Physics import Ball as B
 import time
 import WinGUI
 import pygame
-from pingPong.constants import Constants as c
+import settings as c
 import hands.HandTrackModel as HandTrackModel
 import cv2
 bounds = [M.BoundRect(M.Vector3(-500, -500, 0), M.Vector3(500, 500, 1000), M.Vector3(0, 0, 0), True)]

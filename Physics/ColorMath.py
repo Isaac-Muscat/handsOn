@@ -1,6 +1,5 @@
 import pygame
 
-
 class Color:
     def __init__(self, col):
         self.col = col

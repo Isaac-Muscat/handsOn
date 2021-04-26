@@ -1,8 +1,6 @@
-import Physics.Math as m
 import Physics.Powers as p
-import math
 import pygame
-from pingPong.constants import Constants as c
+import settings as c
 
 
 class Ball:

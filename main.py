@@ -1,61 +1,46 @@
 import random
-
 from Physics import Math as M
 from Physics import Ball as B
 import time
 import WinGUI
 import pygame
-from pingPong.constants import Constants as c
+import settings as c
 import hands.HandTrackModel as HandTrackModel
 import cv2
 
-bounds = [M.BoundRect(M.Vector3(-500, -500, 0), M.Vector3(500, 500, 1000), M.Vector3(0, 0, 0), True)]
-player_paddle = M.BoundRect(M.Vector3(-200, -200, 0), M.Vector3(200, 200, 100), M.Vector3(0, 0, 50), False)
-ai_paddle = M.BoundRect(M.Vector3(-50, -50, 970), M.Vector3(50, 50, 1000), M.Vector3(0, 0, 985), False)
-
-bounds.append(player_paddle)
-bounds.append(ai_paddle)
-
-ball = B.Ball(50, M.Vector3(0, 0, 500), M.Vector3(1000, 100, 1000), bounds)
-w = WinGUI.DrawableWin(ball)
-
-
+#Startup variables and actions
+pygame.init()
 running = True
-
-hasCamera = False
-
-lastTime = time.time()
-# set up webcam video capture device
-for i in range(4):
-    cap = cv2.VideoCapture(0)
-    try:
-        print(cap.read())
-        break
-    except:
-        pass
-
-
-#prevPaddleX, prevPaddleY = pygame.mouse.get_pos()
-prevPaddleX, prevPaddleY = 0,0
+hasCamera = True
+average = (0,0)
+paddleX, paddleY = average
+prevPaddleX, prevPaddleY = average
 myHands = None
+frame_state = 'menu'
+button1Fac = 0
+button2Fac = 0
+mouseCoords = c.halfDims
 
-
-# points stored in memory for averaging
+# points stored in memory for averaging position of game cursor
 pointLength = 6
 lastPoints = [(0, 0)] * pointLength
 
+# set up webcam video capture device
+if hasCamera == True:
+    cap = cv2.VideoCapture(0)
+    if not cap.read():
+        cap = cv2.VideoCapture(1)
+else:
+    hasCamera = False
 
 # calculate the average of the last points
 def averageOfLast(points):
-    # average = [int(np.mean(points[0])),int(np.mean(points[1]))]
     vx = 0
     vy = 0
     for v in range(len(points) - 1):
         vx = points[v][0]*3 + vx
         vy = points[v][1]*3 + vy
     average = (int(vx / (len(points) - 1)), int(vy / (len(points) - 1)))
-    # print(points)
-    # print(average)
     return average
 
 
@@ -65,8 +50,6 @@ def setPoints(coordList):
         lastPoints.pop(0)
         lastPoints.append(coordList[0])
 
-
-
     # get the average of the points
     average = averageOfLast(lastPoints)
 
@@ -75,19 +58,19 @@ def setPoints(coordList):
 
     return posX, posY
 
+#Setup game objects and initialize the window
+bounds = []
+walls = M.BoundRect(M.Vector3(-500, -500, 0), M.Vector3(500, 500, 1000), M.Vector3(0, 0, 0), True)
+player_paddle = M.BoundRect(M.Vector3(-200, -200, 0), M.Vector3(200, 200, 100), M.Vector3(0, 0, 50), False)
+ai_paddle = M.BoundRect(M.Vector3(-50, -50, 970), M.Vector3(50, 50, 1000), M.Vector3(0, 0, 985), False)
+bounds.append(walls)
+bounds.append(player_paddle)
+bounds.append(ai_paddle)
+ball = B.Ball(50, M.Vector3(0, 0, 500), M.Vector3(1000, 100, 1000), bounds)
+w = WinGUI.DrawableWin(ball)
+lastTime = time.time()
 
-
-
-average = (0,0)
-paddleX, paddleY = average
-
-frame_state = 'menu'
-
-button1Fac = 0
-button2Fac = 0
-
-pygame.init()
-
+#Main Loop
 while running:
     # Calculate delta time in seconds
     currentTime = time.time()
@@ -97,43 +80,35 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            break
 
     if hasCamera:
         ret, frame = cap.read()
+
         # setup hands model if it does not exist
         if myHands is None:
             myHands = HandTrackModel.Track(len(frame[0]), len(frame))
-            print('set')
-            mouseCoords = (0, 0)
         else:
             # pass the frame and list of points for tracking
             frame, coordList = (myHands.get_hand_position(frame, [4]))
 
             # remove the last point in the list and add the new one
-            if coordList:
-                lastPoints.pop(0)
-                lastPoints.append(coordList[0])
+            #if coordList:
+            #    lastPoints.pop(0)
+            #    lastPoints.append(coordList[0])
             #mouseCoords = setPoints(coordList)
-
-            posX = c.windowDims[0] * (average[0] / myHands.w) * 2
-            posY = c.windowDims[1] * (average[1] / myHands.h) * 2
-
-            mouseCoords = (posX, posY)
-            '''for i in range(len(lastPoints)-1):
-                cv2.circle(frame, (lastPoints[i][0],lastPoints[i][1]), 15, [255, 255, 0])'''
+            #average = averageOfLast(lastPoints)
+            if coordList:
+                posX = c.windowDims[0] * coordList[0][0]
+                posY = c.windowDims[1] * coordList[0][1]
+                mouseCoords = (posX, posY)
 
             # get the average of the points
-            average = averageOfLast(lastPoints)
-
-            # circle each of the last points and the average point
-            '''for coord in lastPoints:
-                cv2.circle(frame, (coord[0], coord[1]), 15, [255, 255, 0], 2)'''
-
-
-            #cv2.circle(frame, (average[0], average[1]), 15, [0, 255, 255], 2)
+            #average = averageOfLast(lastPoints)
 
             # display the resulting frame
-            cv2.imshow('frame', frame)
+            #cv2.imshow('frame', frame)
+
     if not hasCamera:
         mouseCoords = pygame.mouse.get_pos()
 
@@ -143,6 +118,8 @@ while running:
 
     deltaBlock = M.Vector3(paddleX - c.halfDims[0], c.windowDims[1] - paddleY - c.halfDims[1], 50)
     ball.bounds[1].moveBlock(deltaBlock)
+
+    #Uncomment for ai
     # ball.bounds[2].moveBlock(M.Vector3(ball.pos.x, ball.pos.y, 0))
 
     if frame_state == 'game':
@@ -205,4 +182,7 @@ while running:
                 button2Fac = 0
         w.drawFrameGameover(lastPoints, button1Fac, button2Fac, True)
 
+if hasCamera:
+    cap.release()
+    cv2.destroyAllWindows()
 pygame.quit()

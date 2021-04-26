@@ -1,6 +1,6 @@
 import math
 import pygame
-from pingPong.constants import Constants as c
+import settings as c
 from Physics.ColorMath import Color as co
 
 class Vector3:
