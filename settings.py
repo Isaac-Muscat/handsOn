@@ -1,5 +1,10 @@
 import pyautogui
 
+#Change DEBUG to toggle verbosity and reduced performance
+DEBUG = False
+
+#Change to toggle game with or without camera
+hasCamera = True
 
 gravity = -9.8
 simulationScale = 500

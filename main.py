@@ -11,7 +11,6 @@ import cv2
 #Startup variables and actions
 pygame.init()
 running = True
-hasCamera = True
 average = (0,0)
 paddleX, paddleY = average
 prevPaddleX, prevPaddleY = average
@@ -26,7 +25,7 @@ pointLength = 6
 lastPoints = [(0, 0)] * pointLength
 
 # set up webcam video capture device
-if hasCamera == True:
+if c.hasCamera:
     cap = cv2.VideoCapture(0)
     if not cap.read():
         cap = cv2.VideoCapture(1)
@@ -38,8 +37,8 @@ def averageOfLast(points):
     vx = 0
     vy = 0
     for v in range(len(points) - 1):
-        vx = points[v][0]*3 + vx
-        vy = points[v][1]*3 + vy
+        vx = points[v][0] + vx
+        vy = points[v][1] + vy
     average = (int(vx / (len(points) - 1)), int(vy / (len(points) - 1)))
     return average
 
@@ -82,34 +81,25 @@ while running:
             running = False
             break
 
-    if hasCamera:
+    if c.hasCamera:
         ret, frame = cap.read()
 
         # setup hands model if it does not exist
         if myHands is None:
             myHands = HandTrackModel.Track(len(frame[0]), len(frame))
-        else:
-            # pass the frame and list of points for tracking
-            frame, coordList = (myHands.get_hand_position(frame, [4]))
 
-            # remove the last point in the list and add the new one
-            #if coordList:
-            #    lastPoints.pop(0)
-            #    lastPoints.append(coordList[0])
-            #mouseCoords = setPoints(coordList)
-            #average = averageOfLast(lastPoints)
-            if coordList:
-                posX = c.windowDims[0] * coordList[0][0]
-                posY = c.windowDims[1] * coordList[0][1]
-                mouseCoords = (posX, posY)
+        # pass the frame and list of points for tracking
+        frame= myHands.create_hand_position(frame)
+        pos = myHands.get_interpolated_hand_pos()
+        posX = c.windowDims[0] * pos[0]
+        posY = c.windowDims[1] * pos[1]
+        mouseCoords = (posX, posY)
 
-            # get the average of the points
-            #average = averageOfLast(lastPoints)
+        # display the resulting frame
+        if c.DEBUG:
+            cv2.imshow('frame', frame)
 
-            # display the resulting frame
-            #cv2.imshow('frame', frame)
-
-    if not hasCamera:
+    if not c.hasCamera:
         mouseCoords = pygame.mouse.get_pos()
 
     paddleX, paddleY = mouseCoords
@@ -182,7 +172,7 @@ while running:
                 button2Fac = 0
         w.drawFrameGameover(lastPoints, button1Fac, button2Fac, True)
 
-if hasCamera:
+if c.hasCamera:
     cap.release()
     cv2.destroyAllWindows()
 pygame.quit()
