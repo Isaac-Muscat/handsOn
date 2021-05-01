@@ -133,12 +133,13 @@ class Ball:
             self.pos.z = 1
         factor = self.pos.depthAdjustFactor()
         pygame.draw.circle(screen, (255*factor, 255*factor, 255*factor),
-                           (c.windowDims[0]*(self.pos.x*factor + (1920 / 2))/1920, c.windowDims[1]*(1080 - self.pos.y*factor - (1080 / 2))/1080),
-                           self.radius * factor)
+                           ((self.pos.x*factor*c.resScale + c.halfDims[0]),
+                            (c.windowDims[1] - self.pos.y*factor*c.resScale - c.halfDims[1])),
+                           self.radius * factor*c.resScale)
 
     def drawRed(self, screen):
         if self.pos.z == 0:
             self.pos.z = 1
         factor = self.pos.depthAdjustFactor()
-        pygame.draw.circle(screen, (255, 0, 0), (c.windowDims[0]*(self.pos.x*factor + (1920 / 2))/1920, c.windowDims[1]*(1080 - self.pos.y*factor - (1080 / 2))/1080),
-                           self.radius * factor)
+        pygame.draw.circle(screen, (255, 0, 0), ((self.pos.x*factor*c.resScale + c.halfDims[0]), (c.windowDims[1] - self.pos.y*factor*c.resScale - c.halfDims[1])),
+                           self.radius * factor*c.resScale)

@@ -72,8 +72,8 @@ class BoundRect:
         self.C2 = self.diff2.add(position)
 
     def drawWire(self, screen, width):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         # Front Right
         pygame.draw.line(screen, (200, 200, 200), (self.C2.x*c1Fac+c.halfDims[0], c.windowDims[1]-self.C1.y*c1Fac-c.halfDims[1]), (self.C2.x*c1Fac+c.halfDims[0], c.windowDims[1]-self.C2.y*c1Fac-c.halfDims[1]), width)
@@ -119,8 +119,8 @@ class BoundRect:
 
 
     def drawFillRight(self, screen, c1, c2):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         col = co(c1).interpColors(c2, self.rightVal)
 
@@ -136,8 +136,8 @@ class BoundRect:
             self.rightVal = 0
 
     def drawFillLeft(self, screen, c1, c2):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         col = co(c1).interpColors(c2, self.leftVal)
 
@@ -153,8 +153,8 @@ class BoundRect:
             self.leftVal = 0
 
     def drawFillTop(self, screen, c1, c2):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         col = co(c1).interpColors(c2, self.topVal)
 
@@ -170,8 +170,8 @@ class BoundRect:
             self.topVal = 0
 
     def drawFillBottom(self, screen, c1, c2):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         col = co(c1).interpColors(c2, self.botVal)
 
@@ -187,8 +187,8 @@ class BoundRect:
             self.botVal = 0
 
     def drawFillFront(self, screen, c1, c2):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         col = co(c1).interpColors(c2, self.frontVal)
 
@@ -204,8 +204,8 @@ class BoundRect:
             self.frontVal = 0
 
     def drawFillBack(self, screen, c1, c2):
-        c1Fac = self.C1.depthAdjustFactor()
-        c2Fac = self.C2.depthAdjustFactor()
+        c1Fac = self.C1.depthAdjustFactor()*c.resScale
+        c2Fac = self.C2.depthAdjustFactor()*c.resScale
 
         col = co(c1).interpColors(c2, self.backVal)
 

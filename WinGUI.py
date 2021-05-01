@@ -8,7 +8,7 @@ import pyautogui
 
 class DrawableWin:
     # Declare Width and Height of window
-    width, height = pyautogui.size()
+    width, height = c.windowDims
     #background color
     backCol = [16, 16, 16]
     ballCol = [200, 200, 200]
@@ -162,7 +162,7 @@ class DrawableWin:
     def drawFrameGame(self, update):
         self.screen.fill(self.backCol)
 
-        font = pygame.font.SysFont(None, int(c.windowDims[0]*0.07))
+        font = pygame.font.SysFont(None, int(c.windowDims[0]*0.05))
         img = font.render('Score: ' + str(c.score), True, co((20, 255, 130)).interpColors((255, 255, 255), self.ball.bounds[1].backVal))
         center = img.get_rect(center=(c.windowDims[0]*0.1, c.windowDims[1]*0.4))
         self.screen.blit(img, center)
