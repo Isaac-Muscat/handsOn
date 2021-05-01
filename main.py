@@ -10,10 +10,10 @@ import cv2
 
 #Startup variables and actions
 pygame.init()
+pygame.mouse.set_visible(False)
 running = True
-average = (0,0)
+average = c.halfDims
 paddleX, paddleY = average
-prevPaddleX, prevPaddleY = average
 myHands = None
 frame_state = 'menu'
 button1Fac = 0
@@ -22,7 +22,7 @@ mouseCoords = c.halfDims
 
 # points stored in memory for averaging position of game cursor
 pointLength = 6
-lastPoints = [(0, 0)] * pointLength
+lastPoints = [c.halfDims] * pointLength
 
 # set up webcam video capture device
 if c.hasCamera:
@@ -31,31 +31,6 @@ if c.hasCamera:
         cap = cv2.VideoCapture(1)
 else:
     hasCamera = False
-
-# calculate the average of the last points
-def averageOfLast(points):
-    vx = 0
-    vy = 0
-    for v in range(len(points) - 1):
-        vx = points[v][0] + vx
-        vy = points[v][1] + vy
-    average = (int(vx / (len(points) - 1)), int(vy / (len(points) - 1)))
-    return average
-
-
-def setPoints(coordList):
-    # remove the last point in the list and add the new one
-    if coordList:
-        lastPoints.pop(0)
-        lastPoints.append(coordList[0])
-
-    # get the average of the points
-    average = averageOfLast(lastPoints)
-
-    posX = c.windowDims[0] * (average[0] / myHands.w) / 2
-    posY = c.windowDims[1] * (average[1] / myHands.h) / 2
-
-    return posX, posY
 
 #Setup game objects and initialize the window
 bounds = []
@@ -118,56 +93,55 @@ while running:
         if ball.lives <= 0:
             w.activateGameOver()
             frame_state = 'gameover'
+            button1Fac = 0
             c.score = 0
             ball.lives = 3
             ball.pos = M.Vector3(0, 0, 500)
             ball.velocity = M.Vector3(random.randint(-1000, 1000), random.randint(-1000, 1000), 1000)
     elif frame_state == 'menu':
-        # c.halfDims[0] + 50, 50, c.halfDims[0] - 100, c.windowDims[1] - 100
-        if c.halfDims[0] + 50 < paddleX < c.windowDims[0] - 50 and 50 < paddleY < c.windowDims[1] - 50:
-            button1Fac += 0.007
+        if c.windowDims[0] * 0.6 < paddleX < c.windowDims[0] * 0.97 and c.windowDims[1] * 0.1 < paddleY < c.windowDims[1] * 0.9:
+            button1Fac += c.windowDims[1]/60000
             if button1Fac > 1:
                 button1Fac = 1
                 if w.activateGame(True):
                     lastTime = time.time()
                     frame_state = 'game'
+                    continue
         else:
-            button1Fac -= 0.01
+            button1Fac -= c.windowDims[1]/60000
             if button1Fac < 0:
                 button1Fac = 0
 
-        if 50 < paddleX < 450 and 50 < paddleY < 250:
-            button2Fac += 0.007
+        if c.windowDims[0] * 0.05 < paddleX < c.windowDims[0] * 0.35 and c.windowDims[1] * 0.05 < paddleY < c.windowDims[1] * 0.3:
+            button2Fac += c.windowDims[1]/60000
             if button2Fac > 1:
-                button2Fac = 1
+                break
         else:
-            button2Fac -= 0.01
+            button2Fac -= c.windowDims[1]/60000
             if button2Fac < 0:
                 button2Fac = 0
 
+
         w.drawFrameMenu(lastPoints, button1Fac, button2Fac)
     elif frame_state == 'gameover':
-        # c.halfDims[0] + 50, 50, c.halfDims[0] - 100, c.halfDims[1] - 100
-        if c.halfDims[0] + 50 < paddleX < c.windowDims[0] - 50 and 50 < paddleY < c.halfDims[1] - 50:
-            button1Fac += 0.007
+        if c.windowDims[0] * 0.55 < paddleX < c.windowDims[0] * 0.95 and c.windowDims[1] * 0.05 < paddleY < c.windowDims[1] * 0.45:
+            button1Fac += c.windowDims[1]/60000
             if button1Fac > 1:
                 button1Fac = 1
                 if w.activateGame(False):
                     lastTime = time.time()
                     frame_state = 'game'
         else:
-            button1Fac -= 0.01
+            button1Fac -= c.windowDims[1]/60000
             if button1Fac < 0:
                 button1Fac = 0
-
-        # 50, 50, c.halfDims[0] - 100, c.halfDims[1] - 100
-        if 50 < paddleX < c.halfDims[0] - 50 and 50 < paddleY < c.halfDims[1] - 50:
-            button2Fac += 0.007
+        if c.windowDims[0] * 0.05 < paddleX < c.windowDims[0] * 0.45 and c.windowDims[1] * 0.05 < paddleY < c.windowDims[1] * 0.45:
+            button2Fac += c.windowDims[1]/60000
             if button2Fac > 1:
                 button2Fac = 1
                 break
         else:
-            button2Fac -= 0.01
+            button2Fac -= c.windowDims[1]/60000
             if button2Fac < 0:
                 button2Fac = 0
         w.drawFrameGameover(lastPoints, button1Fac, button2Fac, True)
