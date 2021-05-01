@@ -29,8 +29,6 @@ if c.hasCamera:
     cap = cv2.VideoCapture(0)
     if not cap.read():
         cap = cv2.VideoCapture(1)
-else:
-    hasCamera = False
 
 #Setup game objects and initialize the window
 bounds = []
