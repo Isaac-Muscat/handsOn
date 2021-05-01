@@ -173,13 +173,15 @@ class DrawableWin:
 
 
         # Draw arena first
-        self.ball.bounds[0].drawFillBack(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[0].drawFillRight(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[0].drawFillLeft(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[0].drawFillTop(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[0].drawFillBottom(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[0].drawFillFront(self.screen, (255, 0, 0, 255), (100, 100, 100, 20))
-        self.ball.bounds[0].drawWire(self.screen, 2)
+        if not c.drawWireOnly:
+            self.ball.bounds[0].drawFillBack(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[0].drawFillRight(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[0].drawFillLeft(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[0].drawFillTop(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[0].drawFillBottom(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[0].drawFillFront(self.screen, (255, 0, 0, 255), (100, 100, 100, 20))
+        if not c.drawMeshOnly:
+            self.ball.bounds[0].drawWire(self.screen, 2)
 
         # Draw opponent second
         self.ball.bounds[2].drawFillBack(self.screen, (100, 100, 100, 100), (150, 100, 100, 20))
@@ -192,22 +194,26 @@ class DrawableWin:
 
         #Draw Power ups
         if len(self.ball.bounds) == 4:
-            self.ball.bounds[3].drawFillBack(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
-            self.ball.bounds[3].drawFillRight(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
-            self.ball.bounds[3].drawFillLeft(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
-            self.ball.bounds[3].drawFillTop(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
-            self.ball.bounds[3].drawFillBottom(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
-            self.ball.bounds[3].drawFillFront(self.screen, (100, 100, 255, 255), (100, 100, 255, 20))
-            self.ball.bounds[3].drawWire(self.screen, 2)
+            if not c.drawWireOnly:
+                self.ball.bounds[3].drawFillBack(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
+                self.ball.bounds[3].drawFillRight(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
+                self.ball.bounds[3].drawFillLeft(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
+                self.ball.bounds[3].drawFillTop(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
+                self.ball.bounds[3].drawFillBottom(self.screen, (100, 100, 255, 100), (100, 100, 255, 20))
+                self.ball.bounds[3].drawFillFront(self.screen, (100, 100, 255, 255), (100, 100, 255, 20))
+            if not c.drawMeshOnly:
+                self.ball.bounds[3].drawWire(self.screen, 2)
 
         # Draw player on top
-        self.ball.bounds[1].drawFillBack(self.screen, (100, 255, 130, 255), (100, 100, 100, 20))
-        self.ball.bounds[1].drawFillRight(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[1].drawFillLeft(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[1].drawFillTop(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[1].drawFillBottom(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[1].drawFillFront(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
-        self.ball.bounds[1].drawWire(self.screen, 2)
+        if not c.drawWireOnly:
+            self.ball.bounds[1].drawFillBack(self.screen, (100, 255, 130, 255), (100, 100, 100, 20))
+            self.ball.bounds[1].drawFillRight(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[1].drawFillLeft(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[1].drawFillTop(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[1].drawFillBottom(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+            self.ball.bounds[1].drawFillFront(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
+        if not c.drawMeshOnly:
+            self.ball.bounds[1].drawWire(self.screen, 2)
 
         self.ball.draw(self.screen)
 

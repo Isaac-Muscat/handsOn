@@ -59,23 +59,22 @@ class Ball:
 
                 if self.bounds[i].C1.x < self.pos.x < self.bounds[i].C2.x and self.bounds[i].C1.y < self.pos.y < \
                         self.bounds[i].C2.y:
-                    # Back of sphere hits front of box
+                    # Front of sphere hits back of box (PADDLE HITS)
                     if self.pos.z - self.radius < self.bounds[i].C2.z < self.pos.z + self.radius:
                         self.pos.z = self.bounds[i].C2.z + self.radius
-                        self.velocity.z = -self.velocity.z
+                        self.velocity.z = abs(self.velocity.z)
                         self.bounds[i].backVal = 1
                         hit = True
                         if i == 1:
                             zVel = self.velocity.z
                             self.velocity = self.velocity.add(self.pos.subtract(self.bounds[i].pos).normalized().multiply(50))
                             self.velocity.z = zVel
-                    # Front of sphere hits back of box
-                    if self.pos.z + self.radius > self.bounds[i].C1.z > self.pos.z - self.radius:
+                    # Back of sphere hits front of box
+                    if i != 1 and self.pos.z + self.radius > self.bounds[i].C1.z > self.pos.z - self.radius:
                         self.pos.z = self.bounds[i].C1.z - self.radius
                         self.velocity.z = -self.velocity.z
                         self.bounds[i].frontVal = 1
-                        if i != 1:
-                            hit = True
+                        hit = True
             else:
                 # Left of sphere hits left of box
                 if self.pos.x - self.radius < self.bounds[i].C1.x:
@@ -105,7 +104,7 @@ class Ball:
 
                 # Back of sphere hits back of box
 
-                if i != 1 and self.pos.z - self.radius < self.bounds[i].C1.z:
+                if self.pos.z - self.radius < self.bounds[i].C1.z:
                     self.pos.z = self.bounds[i].C1.z + self.radius
                     self.velocity.z = -self.velocity.z
                     self.bounds[i].frontVal = 1

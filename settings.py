@@ -6,6 +6,12 @@ DEBUG = False
 #Change to toggle game with or without camera
 hasCamera = False
 
+#Draw Wire only
+drawWireOnly = False
+
+#Draw Mesh only
+drawMeshOnly = True
+
 gravity = -9.8
 timeMultiplier = 1
 windowDims = pyautogui.size()
