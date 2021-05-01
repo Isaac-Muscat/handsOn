@@ -171,6 +171,7 @@ class DrawableWin:
         center = img.get_rect(center=(c.windowDims[0] * 0.1, c.windowDims[1] * 0.6))
         self.screen.blit(img, center)
 
+
         # Draw arena first
         self.ball.bounds[0].drawFillBack(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))
         self.ball.bounds[0].drawFillRight(self.screen, (100, 100, 100, 100), (100, 100, 100, 20))

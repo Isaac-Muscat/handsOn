@@ -13,7 +13,7 @@ class Track:
         self.w = fw
         self.h = fh
         self.pos = c.windowDims
-        self.points_length = 6
+        self.points_length = 2
         self.last_points = [c.halfDims]*self.points_length
 
     def get_interpolated_hand_pos(self):

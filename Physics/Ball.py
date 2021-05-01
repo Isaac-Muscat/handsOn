@@ -104,7 +104,8 @@ class Ball:
                     hit = True
 
                 # Back of sphere hits back of box
-                if self.pos.z - self.radius < self.bounds[i].C1.z:
+
+                if i != 1 and self.pos.z - self.radius < self.bounds[i].C1.z:
                     self.pos.z = self.bounds[i].C1.z + self.radius
                     self.velocity.z = -self.velocity.z
                     self.bounds[i].frontVal = 1
