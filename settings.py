@@ -4,7 +4,7 @@ import pyautogui
 DEBUG = False
 
 #Change to toggle game with or without camera
-hasCamera = False
+hasCamera = True
 
 gravity = -9.8
 timeMultiplier = 1

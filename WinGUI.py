@@ -167,7 +167,6 @@ class DrawableWin:
         center = img.get_rect(center=(c.windowDims[0]*0.1, c.windowDims[1]*0.4))
         self.screen.blit(img, center)
 
-        font = pygame.font.SysFont(None, int(c.windowDims[0]*0.07))
         img = font.render('Lives: ' + str(self.ball.lives), True, co((255, 0, 0)).interpColors((255, 255, 255), self.ball.bounds[0].frontVal))
         center = img.get_rect(center=(c.windowDims[0] * 0.1, c.windowDims[1] * 0.6))
         self.screen.blit(img, center)

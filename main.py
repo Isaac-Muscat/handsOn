@@ -81,7 +81,7 @@ while running:
     lastPoints.pop(0)
     lastPoints.append(mouseCoords)
 
-    deltaBlock = M.Vector3(paddleX - c.halfDims[0], c.windowDims[1] - paddleY - c.halfDims[1], 50)
+    deltaBlock = M.Vector3(1920*(paddleX - c.halfDims[0])/c.windowDims[0], 1080*(c.halfDims[1] - paddleY)/c.windowDims[1], 50)
     ball.bounds[1].moveBlock(deltaBlock)
 
     #Uncomment for ai
