@@ -183,15 +183,6 @@ class DrawableWin:
         if not c.drawMeshOnly:
             self.ball.bounds[0].drawWire(self.screen, 2)
 
-        # Draw opponent second
-        self.ball.bounds[2].drawFillBack(self.screen, (100, 100, 100, 100), (150, 100, 100, 20))
-        self.ball.bounds[2].drawFillRight(self.screen, (100, 100, 100, 100), (150, 100, 100, 20))
-        self.ball.bounds[2].drawFillLeft(self.screen, (100, 100, 100, 100), (150, 100, 100, 20))
-        self.ball.bounds[2].drawFillTop(self.screen, (100, 100, 100, 100), (150, 100, 100, 20))
-        self.ball.bounds[2].drawFillBottom(self.screen, (100, 100, 100, 100), (150, 100, 100, 20))
-        self.ball.bounds[2].drawFillFront(self.screen, (255, 0, 0, 255), (150, 100, 100, 20))
-        self.ball.bounds[2].drawWire(self.screen, 2)
-
         #Draw Power ups
         if len(self.ball.bounds) == 4:
             if not c.drawWireOnly:

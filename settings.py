@@ -4,7 +4,7 @@ import pyautogui
 DEBUG = False
 
 #Change to toggle game with or without camera
-hasCamera = False
+hasCamera = True
 
 #Draw Wire only
 drawWireOnly = False

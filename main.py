@@ -26,9 +26,13 @@ lastPoints = [c.halfDims] * pointLength
 
 # set up webcam video capture device
 if c.hasCamera:
-    cap = cv2.VideoCapture(0)
-    if not cap.read():
-        cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(1)
+    ret, frame = cap.read()
+    if not ret:
+        cap = cv2.VideoCapture(0)
+        ret, frame = cap.read()
+        if not ret:
+            hasCamera = False
 
 #Setup game objects and initialize the window
 bounds = []
