@@ -1,4 +1,5 @@
 # Hands On
+This is a game I contributed to in a team of four during YR Hacks and we ended up winning best game!
 
 __Hands on is a hackathon submission.  
 It is a futuristic update for the classic game Pong.__
