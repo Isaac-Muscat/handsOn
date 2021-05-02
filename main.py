@@ -10,6 +10,9 @@ import cv2
 
 #Startup variables and actions
 pygame.init()
+icon = pygame.image.load('ping.png')
+pygame.display.set_icon(icon)
+pygame.display.set_caption('3D - Handtracked Pong')
 pygame.mouse.set_visible(False)
 running = True
 average = c.halfDims
